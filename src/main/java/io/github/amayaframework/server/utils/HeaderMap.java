@@ -47,7 +47,9 @@ public class HeaderMap implements Map<String, List<String>> {
 
     public static HeaderMap unmodifiableHeaderMap(HeaderMap headers) {
         Objects.requireNonNull(headers);
-        return new HeaderMap(Collections.unmodifiableMap(headers.map));
+        Map<String, List<String>> retMap = new ConcurrentHashMap<>(headers.map.size());
+        headers.map.forEach((key, value) -> retMap.put(key, Collections.unmodifiableList(value)));
+        return new HeaderMap(Collections.unmodifiableMap(retMap));
     }
 
     private static void checkValue(String value) {
@@ -207,5 +209,10 @@ public class HeaderMap implements Map<String, List<String>> {
     @Override
     public Set<Entry<String, List<String>>> entrySet() {
         return map.entrySet();
+    }
+
+    @Override
+    public String toString() {
+        return map.toString();
     }
 }
