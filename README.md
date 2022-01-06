@@ -9,7 +9,7 @@ in sun packages. Now this restriction has been removed.
 
 ## Getting Started
 
-To install it, you will need any version of the JDK no older than version 8 and 
+To install it, you will need any build of the JDK no older than version 8 and 
 possibly an automatic build system (Gradle, Maven, etc) to automatically 
 install the dependency.
 
