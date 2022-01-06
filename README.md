@@ -32,8 +32,6 @@ dependencies {
 </dependency>
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
 ## Usage example
 
 The code below will start the server associated with the address localhost:8000.
