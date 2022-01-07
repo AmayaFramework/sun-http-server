@@ -54,7 +54,7 @@ public class Server {
 
 ## Built With
 
-* [Gradle](https://gradle.org) - Dependency Management
+* [Gradle](https://gradle.org) - Dependency management
 
 ## Authors
 * **Oracle Corporation** - *Main work* - [Oracle](https://www.oracle.com)
