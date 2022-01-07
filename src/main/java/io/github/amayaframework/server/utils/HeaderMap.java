@@ -26,7 +26,6 @@
 package io.github.amayaframework.server.utils;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 public class HeaderMap implements Map<String, List<String>> {
@@ -38,16 +37,16 @@ public class HeaderMap implements Map<String, List<String>> {
     }
 
     public HeaderMap(int initialCapacity) {
-        map = new ConcurrentHashMap<>(initialCapacity);
+        map = new HashMap<>(initialCapacity);
     }
 
     public HeaderMap() {
-        map = new ConcurrentHashMap<>();
+        map = new HashMap<>();
     }
 
     public static HeaderMap unmodifiableHeaderMap(HeaderMap headers) {
         Objects.requireNonNull(headers);
-        Map<String, List<String>> retMap = new ConcurrentHashMap<>(headers.map.size());
+        Map<String, List<String>> retMap = new HashMap<>(headers.map.size());
         headers.map.forEach((key, value) -> retMap.put(key, Collections.unmodifiableList(value)));
         return new HeaderMap(Collections.unmodifiableMap(retMap));
     }
