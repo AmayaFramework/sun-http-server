@@ -1,4 +1,4 @@
-# sun-http-server [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.amayaframework/http-server/badge.svg?style=flat)](https://repo1.maven.org/maven2/io/github/amayaframework/http-server/)
+# sun-http-server [![maven-central](https://img.shields.io/maven-central/v/io.github.amayaframework/http-server?color=blue)](https://repo1.maven.org/maven2/io/github/amayaframework/http-server/)
 
 A repackaged and refactored sun http server, created in the original form by Oracle and formerly embedded in the jdk. 
 Distributed under the GNU v2 license.
