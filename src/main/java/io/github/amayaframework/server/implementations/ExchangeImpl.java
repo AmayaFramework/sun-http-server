@@ -25,13 +25,13 @@
 
 package io.github.amayaframework.server.implementations;
 
+import com.github.romanqed.jutils.http.HeaderMap;
+import com.github.romanqed.jutils.http.HttpCode;
 import io.github.amayaframework.server.events.WriteFinishedEvent;
 import io.github.amayaframework.server.interfaces.HttpContext;
 import io.github.amayaframework.server.interfaces.HttpExchange;
 import io.github.amayaframework.server.streams.*;
 import io.github.amayaframework.server.utils.Formats;
-import io.github.amayaframework.server.utils.HeaderMap;
-import io.github.amayaframework.server.utils.HttpCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

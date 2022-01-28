@@ -1,9 +1,9 @@
 package io.github.amayaframework.server.implementations;
 
+import com.github.romanqed.jutils.http.HeaderMap;
+import com.github.romanqed.jutils.http.HttpCode;
 import io.github.amayaframework.server.interfaces.HttpContext;
 import io.github.amayaframework.server.interfaces.HttpsExchange;
-import io.github.amayaframework.server.utils.HeaderMap;
-import io.github.amayaframework.server.utils.HttpCode;
 
 import javax.net.ssl.SSLSession;
 import java.io.IOException;

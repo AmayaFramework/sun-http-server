@@ -25,8 +25,8 @@
 
 package io.github.amayaframework.server.interfaces;
 
-import io.github.amayaframework.server.utils.HeaderMap;
-import io.github.amayaframework.server.utils.HttpCode;
+import com.github.romanqed.jutils.http.HeaderMap;
+import com.github.romanqed.jutils.http.HttpCode;
 
 import java.io.IOException;
 import java.io.InputStream;
