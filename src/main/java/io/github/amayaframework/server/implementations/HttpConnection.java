@@ -26,6 +26,8 @@
 package io.github.amayaframework.server.implementations;
 
 import io.github.amayaframework.server.interfaces.HttpContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -37,6 +39,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Objects;
 
 public class HttpConnection {
+    private final Logger logger = LoggerFactory.getLogger(HttpConnection.class);
     private final ServerImpl server;
     private HttpContext context;
     private SSLEngine engine;
@@ -119,9 +122,11 @@ public class HttpConnection {
             return;
         }
         closed = true;
+        if (channel != null) {
+            logger.info("Closing connection: " + channel);
+        }
         if (!Objects.requireNonNull(channel).isOpen()) {
-            // FIXME
-            System.out.println("Channel already closed");
+            logger.info("Channel already closed");
             return;
         }
         try {
@@ -130,7 +135,7 @@ public class HttpConnection {
                 rawInputStream.close();
             }
         } catch (IOException e) {
-            // FIXME
+            logger.error(e.getMessage());
             e.printStackTrace();
         }
         try {
@@ -138,7 +143,7 @@ public class HttpConnection {
                 rawOutputStream.close();
             }
         } catch (IOException e) {
-            // FIXME
+            logger.error(e.getMessage());
             e.printStackTrace();
         }
         if (sslStreams != null) {
@@ -147,7 +152,7 @@ public class HttpConnection {
         try {
             channel.close();
         } catch (IOException e) {
-            // FIXME
+            logger.error(e.getMessage());
             e.printStackTrace();
         }
     }

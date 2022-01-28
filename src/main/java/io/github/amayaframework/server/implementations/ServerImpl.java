@@ -35,6 +35,8 @@ import io.github.amayaframework.server.streams.LeftOverInputStream;
 import io.github.amayaframework.server.streams.ReadStream;
 import io.github.amayaframework.server.streams.WriteStream;
 import io.github.amayaframework.server.utils.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -48,8 +50,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.*;
 import java.util.concurrent.Executor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ServerImpl {
     private final static int CLOCK_TICK = ServerConfig.getClockTick();
@@ -75,7 +75,7 @@ public class ServerImpl {
     private final Set<HttpConnection> responseConnections;
     private final Object lock = new Object();
     private final Timer timer;
-    private final Logger logger;
+    private final Logger logger = LoggerFactory.getLogger(ServerImpl.class);
     Dispatcher dispatcher;
     private Executor executor;
     private HttpsConfigurator httpsConfig;
@@ -92,7 +92,6 @@ public class ServerImpl {
 
     protected ServerImpl(String protocol, InetSocketAddress address, int backlog) throws IOException {
         this.protocol = protocol;
-        this.logger = Logger.getLogger("com.sun.net.httpserver");
         https = protocol.equalsIgnoreCase("https");
         contexts = new ContextList();
         socketChannel = ServerSocketChannel.open();
@@ -115,12 +114,12 @@ public class ServerImpl {
         if (timer1Enabled) {
             timer1 = new Timer("server-timer1", true);
             timer1.schedule(new ServerTimerTask1(), TIMER_MILLIS, TIMER_MILLIS);
-            logger.config("HttpServer timer1 enabled period in ms:  " + TIMER_MILLIS);
-            logger.config("MAX_REQ_TIME:  " + MAX_REQ_TIME);
-            logger.config("MAX_RSP_TIME:  " + MAX_RSP_TIME);
+            logger.info("HttpServer timer1 enabled period in ms:  " + TIMER_MILLIS);
+            logger.info("MAX_REQ_TIME:  " + MAX_REQ_TIME);
+            logger.info("MAX_RSP_TIME:  " + MAX_RSP_TIME);
         }
         events = new LinkedList<>();
-        logger.config("HttpServer created " + protocol + " " + address);
+        logger.info("HttpServer created " + protocol + " " + address);
     }
 
     public void bind(InetSocketAddress address, int backlog) throws IOException {
@@ -221,7 +220,7 @@ public class ServerImpl {
         }
         HttpContextImpl context = new HttpContextImpl(protocol, path, handler);
         contexts.add(context);
-        logger.config("context created: " + path);
+        logger.info("context created: " + path);
         return context;
     }
 
@@ -231,7 +230,7 @@ public class ServerImpl {
         }
         HttpContextImpl context = new HttpContextImpl(protocol, path, null);
         contexts.add(context);
-        logger.config("context created: " + path);
+        logger.info("context created: " + path);
         return context;
     }
 
@@ -242,7 +241,7 @@ public class ServerImpl {
             throw new NullPointerException("null path parameter");
         }
         contexts.remove(protocol, path);
-        logger.config("context removed: " + path);
+        logger.info("context removed: " + path);
     }
 
     public synchronized void removeContext(HttpContext context) throws IllegalArgumentException {
@@ -250,7 +249,7 @@ public class ServerImpl {
             throw new IllegalArgumentException("wrong HttpContext type");
         }
         contexts.remove((HttpContextImpl) context);
-        logger.config("context removed: " + context.getPath());
+        logger.info("context removed: " + context.getPath());
     }
 
     public InetSocketAddress getAddress() {
@@ -345,7 +344,7 @@ public class ServerImpl {
                         }
                     }
                     for (HttpConnection c : toClose) {
-                        logger.log(Level.FINE, "closing: no request: " + c);
+                        logger.info("closing: no request: " + c);
                         requestConnections.remove(c);
                         allConnections.remove(c);
                         c.close();
@@ -361,7 +360,7 @@ public class ServerImpl {
                         }
                     }
                     for (HttpConnection c : toClose) {
-                        logger.log(Level.FINE, "closing: no response: " + c);
+                        logger.info("closing: no response: " + c);
                         responseConnections.remove(c);
                         allConnections.remove(c);
                         c.close();
@@ -405,7 +404,7 @@ public class ServerImpl {
                     newConnection = true;
                     if (https) {
                         if (sslContext == null) {
-                            logger.warning("SSL connection received. No https context created");
+                            logger.warn("SSL connection received. No https context created");
                             throw new HttpException("No SSL context established");
                         }
                         sslStreams = new SSLStreams(httpsConfig, sslContext, channel);
@@ -552,14 +551,14 @@ public class ServerImpl {
                 }
 
             } catch (IOException e1) {
-                logger.log(Level.FINER, "ServerImpl.Exchange (1)", e1);
+                logger.info("ServerImpl.Exchange (1)", e1);
                 closeConnection(connection);
             } catch (NumberFormatException e3) {
                 reject(HttpCode.BAD_REQUEST, "NumberFormatException thrown");
             } catch (URISyntaxException e) {
                 reject(HttpCode.BAD_REQUEST, "URISyntaxException thrown");
             } catch (Exception e4) {
-                logger.log(Level.FINER, "ServerImpl.Exchange (2)", e4);
+                logger.info("ServerImpl.Exchange (2)", e4);
                 closeConnection(connection);
             }
         }
@@ -646,9 +645,7 @@ public class ServerImpl {
                     }
                 }
             } catch (IOException e) {
-                logger.log(
-                        Level.FINER, "Dispatcher (1)", e
-                );
+                logger.info("Dispatcher (1)", e);
                 c.close();
             }
         }
@@ -664,7 +661,7 @@ public class ServerImpl {
                 c.setTime(time + IDLE_INTERVAL);
                 idleConnections.add(c);
             } catch (IOException e) {
-                logger.log(Level.FINER, "Dispatcher(8)", e);
+                logger.info("Dispatcher(8)", e);
                 c.close();
             }
         }
@@ -745,9 +742,9 @@ public class ServerImpl {
                     // call the selector just to process the cancelled keys
                     selector.selectNow();
                 } catch (IOException e) {
-                    logger.log(Level.FINER, "Dispatcher (4)", e);
+                    logger.info("Dispatcher (4)", e);
                 } catch (Exception e) {
-                    logger.log(Level.FINER, "Dispatcher (7)", e);
+                    logger.info("Dispatcher (7)", e);
                 }
             }
             try {
@@ -760,7 +757,7 @@ public class ServerImpl {
         private void handleException(SelectionKey key, Exception e) {
             HttpConnection conn = (HttpConnection) key.attachment();
             if (e != null) {
-                logger.log(Level.FINER, "Dispatcher (2)", e);
+                logger.info("Dispatcher (2)", e);
             }
             closeConnection(conn);
         }
@@ -770,7 +767,7 @@ public class ServerImpl {
                 Exchange t = new Exchange(chan, protocol, conn);
                 executor.execute(t);
             } catch (HttpException e1) {
-                logger.log(Level.FINER, "Dispatcher (4)", e1);
+                logger.info("Dispatcher (4)", e1);
                 closeConnection(conn);
             }
         }

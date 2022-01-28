@@ -32,6 +32,8 @@ import io.github.amayaframework.server.streams.*;
 import io.github.amayaframework.server.utils.Formats;
 import io.github.amayaframework.server.utils.HeaderMap;
 import io.github.amayaframework.server.utils.HttpCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLSession;
@@ -47,6 +49,7 @@ import java.util.*;
 
 public class ExchangeImpl implements HttpExchange {
     private static final String HEAD = "HEAD";
+    private final Logger logger = LoggerFactory.getLogger(ExchangeImpl.class);
     private final HeaderMap requestHeaders;
     private final HeaderMap responseHeaders;
     private final Request request;
@@ -239,9 +242,11 @@ public class ExchangeImpl implements HttpExchange {
 
         /* check for response type that is not allowed to send a body */
 
-        if ((code.getCode() >= 100 && code.getCode() < 200) /* informational */
-                || (code.getCode() == 204)           /* no content */
-                || (code.getCode() == 304))          /* not modified */ {
+        if ((code.getCode() >= 100 && code.getCode() < 200) || (code.getCode() == 204) || (code.getCode() == 304)) {
+            if (responseLength != -1) {
+                String message = "sendResponseHeaders: rCode = " + code + ": forcing content length = -1";
+                logger.warn(message);
+            }
             responseLength = -1;
         }
 
@@ -249,23 +254,25 @@ public class ExchangeImpl implements HttpExchange {
             /* HEAD requests should not set a content length by passing it
              * through this API, but should instead manually set the required
              * headers.*/
-            noContentToSend = true;
-        } else { /* not a HEAD request */
-            if (responseLength == 0) {
-                if (http10) {
-                    o.setWrappedStream(new UndefLengthOutputStream(this, requestOutputStream));
-                } else {
-                    responseHeaders.set("Transfer-encoding", "chunked");
-                    o.setWrappedStream(new ChunkedOutputStream(this, requestOutputStream));
-                }
-            } else {
-                if (responseLength == -1) {
-                    noContentToSend = true;
-                    responseLength = 0;
-                }
-                responseHeaders.set("Content-length", Long.toString(responseLength));
-                o.setWrappedStream(new FixedLengthOutputStream(this, requestOutputStream, responseLength));
+            if (responseLength >= 0) {
+                String message = "sendResponseHeaders: being invoked with a content length for a HEAD request";
+                logger.warn(message);
             }
+            noContentToSend = true;
+        } else if (responseLength == 0) {
+            if (http10) {
+                o.setWrappedStream(new UndefLengthOutputStream(this, requestOutputStream));
+            } else {
+                responseHeaders.set("Transfer-encoding", "chunked");
+                o.setWrappedStream(new ChunkedOutputStream(this, requestOutputStream));
+            }
+        } else {
+            if (responseLength == -1) {
+                noContentToSend = true;
+                responseLength = 0;
+            }
+            responseHeaders.set("Content-length", Long.toString(responseLength));
+            o.setWrappedStream(new FixedLengthOutputStream(this, requestOutputStream, responseLength));
         }
         write(responseHeaders, tempOut);
         tempOut.flush();
