@@ -12,7 +12,7 @@ java {
     withSourcesJar()
 }
 
-group 'io.github.amayaframework'
+group = 'io.github.amayaframework'
 archivesBaseName = 'http-server'
 version = System.getenv('RELEASE_VERSION') ?: '1.0.0'
 
