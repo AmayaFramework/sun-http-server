@@ -117,7 +117,8 @@ public interface HttpExchange {
     HttpContext getHttpContext();
 
     /**
-     * Ends this exchange by doing the following in sequence:<p><ol>
+     * <p>Ends this exchange by doing the following in sequence:</p>
+     * <ol>
      * <li>close the request InputStream, if not already closed<p></li>
      * <li>close the response OutputStream, if not already closed. </li>
      * </ol>
@@ -183,6 +184,7 @@ public interface HttpExchange {
      *                       and an arbitrary number of bytes may be written.
      *                       if less or equal -1, then no response body length is specified and
      *                       no response body may be written.
+     * @throws IOException if sending fails
      * @see HttpExchange#getResponseBody()
      */
     void sendResponseHeaders(HttpCode code, long responseLength) throws IOException;

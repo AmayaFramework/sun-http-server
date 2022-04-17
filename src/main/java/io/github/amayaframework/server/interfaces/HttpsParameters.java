@@ -58,12 +58,12 @@ public abstract class HttpsParameters {
     private boolean needClientAuth;
 
     /**
-     * Returns the HttpsConfigurator for this HttpsParameters.
+     * @return the HttpsConfigurator for this HttpsParameters.
      */
     public abstract HttpsConfigurator getHttpsConfigurator();
 
     /**
-     * Returns the address of the remote client initiating the
+     * @return the address of the remote client initiating the
      * connection.
      */
     public abstract InetSocketAddress getClientAddress();

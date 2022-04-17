@@ -67,8 +67,10 @@ public class Request {
     /**
      * read a line from the stream returning as a String.
      * Not used for reading headers.
+     *
+     * @return readied line
+     * @throws IOException if read() throws it
      */
-
     public String readLine() throws IOException {
         boolean gotCR = false, gotLF = false;
         pos = 0;
@@ -107,7 +109,7 @@ public class Request {
     }
 
     /**
-     * returns the request line (first line of a request)
+     * @return the request line (first line of a request)
      */
     public String requestLine() {
         return startLine;

@@ -44,7 +44,8 @@ public abstract class LeftOverInputStream extends FilterInputStream {
     }
 
     /**
-     * if bytes are left over buffered on *the UNDERLYING* stream
+     * @return if bytes are left over buffered on *the UNDERLYING* stream
+     * @throws IOException if available() throws it
      */
     public boolean isDataBuffered() throws IOException {
         return super.available() > 0;
@@ -91,9 +92,11 @@ public abstract class LeftOverInputStream extends FilterInputStream {
 
     /**
      * read and discard up to l bytes or "eof" occurs,
-     * (whichever is first). Then return true if the stream
-     * is at eof (i.e. all bytes were read) or false if not
-     * (still bytes to be read)
+     * (whichever is first).
+     *
+     * @param l bytes count
+     * @return return true if the stream is at eof (i.e. all bytes were read) or false if not still bytes to be read
+     * @throws IOException if readImpl() throws it
      */
     public boolean drain(long l) throws IOException {
         int bufSize = 2048;

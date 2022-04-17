@@ -71,6 +71,8 @@ public interface HttpContext {
      * <p>
      * Every attribute stored in this Map will be visible to
      * every HttpExchange processed by this context
+     *
+     * @return attached attributes
      */
     Map<String, Object> getAttributes();
 
@@ -78,6 +80,8 @@ public interface HttpContext {
      * returns this context's list of Filters. This is the
      * actual list used by the server when dispatching requests
      * so modifications to this list immediately affect the handling of exchanges.
+     *
+     * @return list of {@link Filter}
      */
     List<Filter> getFilters();
 }

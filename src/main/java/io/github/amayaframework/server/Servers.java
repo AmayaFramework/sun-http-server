@@ -24,6 +24,8 @@ public class Servers {
      *                to set the address
      * @param backlog the socket backlog. If this value is less than or equal to zero,
      *                then a system default value is used.
+     * @return created https server
+     * @throws IOException if server creation will be failed
      */
     public static HttpsServer httpsServer(InetSocketAddress address, int backlog) throws IOException {
         return new HttpsServerImpl(address, backlog);
@@ -34,6 +36,9 @@ public class Servers {
      * The server must be bound using {@link HttpsServer#bind(InetSocketAddress, int)} before it can be used.
      * The server must also have a HttpsConfigurator established
      * with {@link HttpsServer#setHttpsConfigurator(HttpsConfigurator)}
+     *
+     * @return created https server
+     * @throws IOException if server creation will be failed
      */
     public static HttpsServer httpsServer() throws IOException {
         return httpsServer(null, 0);
@@ -51,6 +56,8 @@ public class Servers {
      *                to set the address
      * @param backlog the socket backlog. If this value is less than or equal to zero,
      *                then a system default value is used.
+     * @return created http server
+     * @throws IOException if server creation will be failed
      */
     public static HttpServer httpServer(InetSocketAddress address, int backlog) throws IOException {
         return new HttpServerImpl(address, backlog);
@@ -59,6 +66,9 @@ public class Servers {
     /**
      * Creates a HttpServer instance which is initially not bound to any local address/port.
      * The server must be bound using {@link HttpServer#bind(InetSocketAddress, int)} before it can be used.
+     *
+     * @return created http server
+     * @throws IOException if server creation will be failed
      */
     public static HttpServer httpServer() throws IOException {
         return httpServer(null, 0);

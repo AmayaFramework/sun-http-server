@@ -54,16 +54,14 @@ import java.util.concurrent.Executor;
  * whose path is the longest matching prefix of the request URI's path.
  * Paths are matched literally, which means that the strings are compared
  * case sensitively, and with no conversion to or from any encoded forms.
- * For example. Given a HttpServer with the following HttpContexts configured.<p>
+ * <p>For example. Given a HttpServer with the following HttpContexts configured.</p>
  * <table summary="">
  * <tr><td><i>Context</i></td><td><i>Context path</i></td></tr>
  * <tr><td>ctx1</td><td>"/"</td></tr>
  * <tr><td>ctx2</td><td>"/apps/"</td></tr>
  * <tr><td>ctx3</td><td>"/apps/foo/"</td></tr>
  * </table>
- * <p>
- * the following table shows some request URIs and which, if any context they would
- * match with.<p>
+ * <p>the following table shows some request URIs and which, if any context they would match with.</p>
  * <table summary="">
  * <tr><td><i>Request URI</i></td><td><i>Matches context</i></td></tr>
  * <tr><td>"http://foo.com/apps/foo/bar"</td><td>ctx3</td></tr>
@@ -156,6 +154,7 @@ public interface HttpServer {
      *
      * @param path    the root URI path to associate the context with
      * @param handler the handler to invoke for incoming requests.
+     * @return created {@link HttpContext}
      * @throws IllegalArgumentException if path is invalid, or if a context
      *                                  already exists for this path
      * @throws NullPointerException     if either path, or handler are <code>null</code>
@@ -177,6 +176,7 @@ public interface HttpServer {
      * to HttpContext instances.
      *
      * @param path the root URI path to associate the context with
+     * @return created {@link HttpContext}
      * @throws IllegalArgumentException if path is invalid, or if a context
      *                                  already exists for this path
      * @throws NullPointerException     if path is <code>null</code>

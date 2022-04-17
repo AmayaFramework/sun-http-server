@@ -92,7 +92,7 @@ public class SSLStreams {
     }
 
     /**
-     * return the SSL InputStream
+     * @return the SSL InputStream
      */
     public InputStream getInputStream() {
         if (inputStream == null) {
@@ -102,7 +102,7 @@ public class SSLStreams {
     }
 
     /**
-     * return the SSL OutputStream
+     * @return the SSL OutputStream
      */
     public OutputStream getOutputStream() {
         if (outputStream == null) {
@@ -119,6 +119,8 @@ public class SSLStreams {
      * request the engine to repeat the handshake on this session
      * the handshake must be driven by reads/writes on the streams
      * Normally, not necessary to call this.
+     *
+     * @throws SSLException if begin handshake will be failed
      */
     public void beginHandshake() throws SSLException {
         engine.beginHandshake();
@@ -210,6 +212,10 @@ public class SSLStreams {
      * given buffer was not large enough, a new one is allocated
      * and returned. This call handles handshaking automatically.
      * Caller should check if engine has been closed.
+     *
+     * @param dst {@link ByteBuffer} to write data
+     * @return {@link WrapperResult}
+     * @throws IOException if recv will be failed
      */
     public WrapperResult recvData(ByteBuffer dst) throws IOException {
         /* we wait until some user data arrives */

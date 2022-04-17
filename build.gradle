@@ -24,7 +24,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.35'
-    api group: 'com.github.romanqed', name: 'jutils', version: '1.2.7'
+    api group: 'com.github.romanqed', name: 'jutils', version: '3.3.0'
 }
 
 test {
@@ -43,12 +43,45 @@ signing {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            customizePom(pom)
-            groupId group
-            artifactId archivesBaseName
-            version version
-
+            // Specify artifacts
+            groupId = group
+            artifactId = archivesBaseName
+            version = version
             from components.java
+            // Configure pom
+            pom {
+                name.set('http-server')
+                description.set('A repackaged and refactored sun http server, ' +
+                        'created in the original form by Oracle and formerly embedded in the jdk. ' +
+                        'Distributed under the GNU v2 license.')
+                url.set('https://github.com/AmayaFramework/sun-http-server')
+                organization {
+                    name.set('io.github.amayaframework')
+                    url.set('https://github.com/AmayaFramework')
+                }
+                issueManagement {
+                    system.set('GitHub')
+                    url.set('https://github.com/AmayaFramework/sun-http-server/issues')
+                }
+                licenses {
+                    license {
+                        name.set('GNU General Public License v2.0')
+                        url.set('https://github.com/AmayaFramework/sun-http-server/blob/main/LICENSE')
+                    }
+                }
+                scm {
+                    url.set('https://github.com/AmayaFramework/sun-http-server')
+                    connection.set('scm:https://github.com/AmayaFramework/sun-http-server.git')
+                    developerConnection.set('scm:https://github.com/AmayaFramework/sun-http-server.git')
+                }
+                developers {
+                    developer {
+                        id.set('RomanQed')
+                        name.set('Roman Bakaldin')
+                        email.set('gbakaldin@gmail.com')
+                    }
+                }
+            }
         }
     }
     repositories {
@@ -57,51 +90,6 @@ publishing {
             credentials {
                 username System.getenv('SONATYPE_USERNAME')
                 password System.getenv('SONATYPE_PASSWORD')
-            }
-        }
-    }
-}
-
-def customizePom(pom) {
-    pom.withXml {
-        def root = asNode()
-
-        root.dependencies.removeAll { dep ->
-            dep.scope == "test"
-        }
-
-        root.children().last() + {
-            resolveStrategy = DELEGATE_FIRST
-            description 'A repackaged and refactored sun http server, ' +
-                    'created in the original form by Oracle and formerly embedded in the jdk. ' +
-                    'Distributed under the GNU v2 license.'
-            name 'http-server'
-            url 'https://github.com/AmayaFramework/sun-http-server'
-            organization {
-                name 'io.github.amayaframework'
-                url 'https://github.com/AmayaFramework'
-            }
-            issueManagement {
-                system 'GitHub'
-                url 'https://github.com/AmayaFramework/sun-http-server/issues'
-            }
-            licenses {
-                license {
-                    name 'GNU General Public License v2.0'
-                    url 'https://github.com/AmayaFramework/sun-http-server/blob/main/LICENSE'
-                }
-            }
-            scm {
-                url 'https://github.com/AmayaFramework/sun-http-server'
-                connection 'scm:https://github.com/AmayaFramework/sun-http-server.git'
-                developerConnection 'scm:https://github.com/AmayaFramework/sun-http-server.git'
-            }
-            developers {
-                developer {
-                    id 'dev'
-                    name 'RomanQed'
-                    email 'gbakaldin@gmail.com'
-                }
             }
         }
     }
