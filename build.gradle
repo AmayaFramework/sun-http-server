@@ -22,7 +22,7 @@ repositories {
 
 dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.35'
-    api group: 'com.github.romanqed', name: 'jutils', version: '3.3.0'
+    api group: 'com.github.romanqed', name: 'java-utils', version: '1.0.0'
 }
 
 jar {

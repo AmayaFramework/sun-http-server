@@ -25,8 +25,8 @@
 
 package io.github.amayaframework.server.implementations;
 
-import com.github.romanqed.jutils.http.HeaderMap;
-import com.github.romanqed.jutils.http.HttpCode;
+import com.github.romanqed.util.http.HeaderMap;
+import com.github.romanqed.util.http.HttpCode;
 import io.github.amayaframework.server.events.WriteFinishedEvent;
 import io.github.amayaframework.server.interfaces.HttpContext;
 import io.github.amayaframework.server.interfaces.HttpExchange;
