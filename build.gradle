@@ -22,7 +22,7 @@ repositories {
 
 dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.35'
-    api group: 'io.github.amayaframework', name: 'http-utils', version: '1.0.0'
+    api group: 'io.github.amayaframework', name: 'http-utils', version: '1.0.1'
 }
 
 jar {
