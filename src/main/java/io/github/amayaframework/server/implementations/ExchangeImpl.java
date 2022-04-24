@@ -25,8 +25,10 @@
 
 package io.github.amayaframework.server.implementations;
 
-import com.github.romanqed.util.http.HeaderMap;
-import com.github.romanqed.util.http.HttpCode;
+import io.github.amayaframework.http.HeaderMap;
+import io.github.amayaframework.http.HttpCode;
+import io.github.amayaframework.http.HttpHeaderMap;
+import io.github.amayaframework.http.HttpUtil;
 import io.github.amayaframework.server.events.WriteFinishedEvent;
 import io.github.amayaframework.server.interfaces.HttpContext;
 import io.github.amayaframework.server.interfaces.HttpExchange;
@@ -75,7 +77,7 @@ public class ExchangeImpl implements HttpExchange {
     public ExchangeImpl(String method, URI uri, Request request, long length, HttpConnection connection) {
         this.request = request;
         this.requestHeaders = request.headers;
-        this.responseHeaders = new HeaderMap();
+        this.responseHeaders = new HttpHeaderMap();
         this.method = method;
         this.uri = uri;
         this.connection = connection;
@@ -103,7 +105,7 @@ public class ExchangeImpl implements HttpExchange {
 
     @Override
     public HeaderMap getRequestHeaders() {
-        return HeaderMap.unmodifiableHeaderMap(requestHeaders);
+        return HttpUtil.unmodifiableHeaderMap(requestHeaders);
     }
 
     @Override

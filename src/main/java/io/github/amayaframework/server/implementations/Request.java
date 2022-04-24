@@ -25,7 +25,8 @@
 
 package io.github.amayaframework.server.implementations;
 
-import com.github.romanqed.util.http.HeaderMap;
+import io.github.amayaframework.http.HeaderMap;
+import io.github.amayaframework.http.HttpHeaderMap;
 import io.github.amayaframework.server.utils.ServerConfig;
 
 import java.io.IOException;
@@ -120,7 +121,7 @@ public class Request {
         if (headers != null) {
             return headers;
         }
-        headers = new HeaderMap();
+        headers = new HttpHeaderMap();
         char[] s = new char[10];
         int len = 0;
         int firstChar = inputStream.read();

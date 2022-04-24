@@ -18,11 +18,14 @@ version = System.getenv('RELEASE_VERSION') ?: '1.0.0'
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://s01.oss.sonatype.org/content/repositories/iogithubamayaframework-1161"
+    }
 }
 
 dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.35'
-    api group: 'com.github.romanqed', name: 'java-utils', version: '1.0.0'
+    api group: 'io.github.amayaframework', name: 'http-utils', version: '1.0.0'
 }
 
 jar {
@@ -44,7 +47,7 @@ publishing {
             from components.java
             // Configure pom
             pom {
-                name.set('http-server')
+                name.set(archivesBaseName)
                 description.set('A repackaged and refactored sun http server, ' +
                         'created in the original form by Oracle and formerly embedded in the jdk. ' +
                         'Distributed under the GNU v2 license.')
