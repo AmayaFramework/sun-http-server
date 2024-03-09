@@ -25,20 +25,17 @@
 
 package io.github.amayaframework.server.utils;
 
-public class ServerConfig {
+public final class ServerConfig {
 
     private static final int DEFAULT_CLOCK_TICK = 10000; // 10 sec.
-
     /* These values must be a reasonable multiple of clockTick */
     private static final long DEFAULT_IDLE_INTERVAL = 30; // 5 min
     private static final int DEFAULT_MAX_IDLE_CONNECTIONS = 200;
-
     private static final long DEFAULT_MAX_REQ_TIME = -1; // default: forever
     private static final long DEFAULT_MAX_RSP_TIME = -1; // default: forever
     private static final long DEFAULT_TIMER_MILLIS = 1000;
     private static final int DEFAULT_MAX_REQ_HEADERS = 200;
     private static final long DEFAULT_DRAIN_AMOUNT = 64 * 1024;
-
     private static int clockTick = DEFAULT_CLOCK_TICK;
     private static long idleInterval = DEFAULT_IDLE_INTERVAL;
     // The maximum number of bytes to drain from an input stream
@@ -53,6 +50,9 @@ public class ServerConfig {
     private static boolean debug = false;
     // the value of the TCP_NO_DELAY socket-level option
     private static boolean noDelay = false;
+
+    private ServerConfig() {
+    }
 
     public static int getClockTick() {
         return clockTick;

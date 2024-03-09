@@ -9,7 +9,11 @@ import io.github.amayaframework.server.utils.HttpsConfigurator;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class Servers {
+public final class Servers {
+
+    private Servers() {
+    }
+
     /**
      * Create a <code>HttpsServer</code> instance which will bind to the
      * specified {@link java.net.InetSocketAddress} (IP address and port number)

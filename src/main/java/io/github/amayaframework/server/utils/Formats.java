@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class Formats {
+public final class Formats {
     private static final String PATTERN = "EEE, dd MMM yyyy HH:mm:ss zzz";
     private static final TimeZone GMT_TZ = TimeZone.getTimeZone("GMT");
     private static final ThreadLocal<DateFormat> DATE_FORMAT;
@@ -17,6 +17,9 @@ public class Formats {
             df.setTimeZone(GMT_TZ);
             return df;
         });
+    }
+
+    private Formats() {
     }
 
     public static String formatDate(Date date) {
