@@ -8,7 +8,8 @@ assignees: RomanQed
 ---
 
 **Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I always have to fix/spend extra time/write extra code when [...]
+A clear and concise description of what the problem is. Ex. I always have to fix/spend extra time/write extra code
+when [...]
 
 **Describe the solution you'd like**
 A clear and concise description of what you want to happen.
