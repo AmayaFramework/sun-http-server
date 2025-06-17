@@ -3,7 +3,7 @@
 A repackaged and refactored sun http server, created in the original form by Oracle and formerly embedded in the jdk.
 Distributed under the GNU v2 license.
 
-This server, built on non-blocking sockets, is a really good lightweight solution that has everything you need
+This server, built on non-blocking sockets, is a perfect lightweight solution that has everything you need
 for full use in various projects. Up to this point, it was ignored by most of the community due to its location
 in sun packages. Now this restriction has been removed.
 
@@ -45,7 +45,7 @@ He will respond to all other requests with the code 404.
 ```Java
 public class Server {
     public static void main(String[] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        HttpServer server = Servers.httpServer(new InetSocketAddress(8000), 0);
         server.createContext("/hello", exchange -> {
             exchange.sendResponseHeaders(HttpCode.OK, 0);
             exchange.close();
